@@ -1,2 +1,2 @@
-# Payment-Autoresponder
-Fire off events like emails, on receipt of a Payment!
+# Transaction-Responder
+Fire off events like emails, on monetary transactions.
