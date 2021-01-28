@@ -57,18 +57,35 @@ class TransactionResponder
         if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
             return;
         }
+        $message = get_the_title( $post_id );
 
-        $subject = get_the_title( $post_id );
-        $message = get_the_content( null, false, $post_id );
-
-        $this->mailResponse($subject, $message);
+        $this->mailResponse();
     }
 
-    function mailResponse($subject, $message){
+    function logResponse($mailResult){
+        $log = get_home_path() . 'log/hook_log.txt';
+        $message = $mailResult;
+
+        if (file_exists( $log)) {
+            $file = fopen( $log, 'a');
+            fwrite($file, $message ."\n");
+        } else {
+            $file = fopen( $log, 'w');
+            fwrite( $file, $message ."\n");
+        }
+        fclose($file);
+    }
+
+
+    function mailResponse(){
         $to = 'synchronicity113@gmail.com';
+        $subject = 'hello';
+        $message = 'world';
 
         $mailResult = false;
-        $mailResult = wp_mail( $to, $subject, $message );
+        $mailResult = wp_mail( $to, 'test if mail works', 'hurray' );
+        $this->logResponse($mailResult);
+//        wp_mail( $to, $subject, $message );
     }
 }
 
