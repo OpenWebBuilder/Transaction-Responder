@@ -51,6 +51,7 @@ class TransactionRespond
         $first_name = isset($posted["first_name"]) ? $posted["first_name"] : '';
 
         $body = <<<'EOD'
+<div>
 <h1>Welcome to the Pleasuredome!</h1>
 
 <b>Life goes on day after day, after day, after day</b>
@@ -98,6 +99,7 @@ Shooting stars never stop
 Even when they reach the top
 Shooting stars never stop
 Even when they reach the top
+</div>
 EOD;
 
         // User Setable vars
@@ -108,6 +110,7 @@ EOD;
         $to = array( $payer_email ); // list of your subscribers
         $from_header = 'From: '.$from_name.' <'.$from_email.'>';
         $headers[] = $from_header;
+        $headers[] = 'Content-type: text/html';
 
         // Compose Email
         $subject     = 'Hi ' . $first_name . ', Welcome to TimCast.com!';
