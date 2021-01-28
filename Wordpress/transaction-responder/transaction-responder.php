@@ -26,13 +26,13 @@ class TransactionResponder
     }
 
     function activate(){
+        flush_rewrite_rules();
     }
 
     function deactivate(){
     }
 
     function uninstall(){
-
     }
 
     function custom_post_type() {
