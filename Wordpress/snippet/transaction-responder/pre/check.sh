@@ -1,1 +1,0 @@
-cat /var/www/site.tld/htdocs/log/hook_log.txt
