@@ -30,6 +30,7 @@ class TransactionResponder
     }
 
     function deactivate(){
+        flush_rewrite_rules();
     }
 
     function uninstall(){
