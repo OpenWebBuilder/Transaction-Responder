@@ -22,9 +22,9 @@ class TransactionRespond
     {
         add_action( 'init', array( $this, 'custom_post_type' ));
 
-        add_action( 'save_post_email', array( $this, 'welcome_email' ), 10, 3 );
+        add_action( 'save_post_email', array( $this, 'test_post_email' ), 10, 3 );
 
-        add_action( 'paypal_ipn_for_wordpress_ipn_response_handler', array( $this, 'test_email' ), 10, 1);
+        add_action( 'paypal_ipn_for_wordpress_ipn_response_handler', array( $this, 'transaction_email' ), 10, 1);
     }
 
     function activate(){
@@ -45,16 +45,18 @@ class TransactionRespond
         register_post_type( 'email', ['public' => true, 'label' => 'Email' ]);
     }
 
-    function test_email($posted) {
+    function transaction_email($posted) {
+
+        $payer_email = isset($posted["payer_email"]) ? $posted["payer_email"] : '';
 
         $subscribers = array( 'synchronicity113@gmail.com' ); // list of your subscribers
-        $subject     = 'A new Transaction';
-        $message     = 'test it';
+        $subject     = 'Welcome to TimCast.com!';
+        $message     = 'to '. $payer_email;
 
         wp_mail( $subscribers, $subject, $message );
     }
 
-    function welcome_email( $post_id, $post, $update ) {
+    function test_post_email( $post_id, $post, $update ) {
         if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
             return;
         }
