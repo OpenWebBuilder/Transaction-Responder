@@ -54,16 +54,12 @@ class TransactionResponder
     }
 
     function log_when_saved( $post_id ){
-        /*
-         * https://youtu.be/tlAukRR7tf4?list=PLD8nQCAhR3tTVcreVOlFteq0piaXq1jjk
-         * https://youtu.be/9GuJi8dYuAs
-         */
-//        if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
-//            return;
-//        }
+        if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
+            return;
+        }
         $message = get_the_title( $post_id );
 
-//        $this->mailResponse();
+        $this->mailResponse();
     }
 
     function logResponse($mailResult){
