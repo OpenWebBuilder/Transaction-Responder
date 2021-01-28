@@ -100,13 +100,14 @@ Shooting stars never stop
 Even when they reach the top
 EOD;
 
-        // User vars
-        $from_name = 'TimCast Support'
-        $from_email - 'members@timcast.com'
+        // User Setable vars
+        $from_name = 'TimCast Support';
+        $from_email = 'members@timcast.com';
 
         // Headers
         $to = array( $payer_email ); // list of your subscribers
-        $headers[] = 'From: '.$from_name.' <'.$from_email'>';
+        $from_header = 'From: '.$from_name.' <'.$from_email.'>';
+        $headers[] = $from_header;
 
         // Compose Email
         $subject     = 'Hi ' . $first_name . ', Welcome to TimCast.com!';
