@@ -1,8 +1,8 @@
 <?php
 
 /*
-Plugin Name: Transaction Response
-Plugin URI: https://github.com/UnicornPaaS/Transaction-Response
+Plugin Name: Transaction Respond
+Plugin URI: https://github.com/UnicornPaaS/Transaction-Respond
 Description: Fire off events like emails, on monetary transactions!
 Version: 0.1
 Author: DarkStar
@@ -16,13 +16,15 @@ if ( !function_exists( 'add_action' ) ) {
     exit;
 }
 
-class TransactionResponse
+class TransactionRespond
 {
     public function __construct()
     {
         add_action( 'init', array( $this, 'custom_post_type' ));
 
         add_action( 'save_post_email', array( $this, 'welcome_email' ), 10, 3 );
+
+        add_action( 'paypal_ipn_for_wordpress_ipn_response_handler', array( $this, 'test_email' ), 10, 1);
     }
 
     function activate(){
@@ -43,31 +45,38 @@ class TransactionResponse
         register_post_type( 'email', ['public' => true, 'label' => 'Email' ]);
     }
 
-    function welcome_email( $post_id, $post, $update ) {
+    function test_email($posted) {
 
-        // If an old book is being updated, exit
-        if ( $update ) {
+        $subscribers = array( 'synchronicity113@gmail.com' ); // list of your subscribers
+        $subject     = 'A new Transaction';
+        $message     = 'test it';
+
+        wp_mail( $subscribers, $subject, $message );
+    }
+
+    function welcome_email( $post_id, $post, $update ) {
+        if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
             return;
         }
 
         $subscribers = array( 'synchronicity113@gmail.com' ); // list of your subscribers
-        $subject     = 'A new book has beed added!';
+        // $subject     = 'A new book has beed added!';
         $message     = sprintf( 'We\'ve added a new book, %s. Click <a href="%s">here</a> to see the book', get_the_title( $post ), get_permalink( $post ) );
 
-        // $subject = get_the_title( $post_id );
+        $subject = get_the_title( $post_id );
         // $message = get_the_content( null, false, $post_id );
 
         wp_mail( $subscribers, $subject, $message );
     }
 }
 
-if( class_exists( 'TransactionResponse' )){
-    $transactionResponse = new TransactionResponse();
+if( class_exists( 'TransactionRespond' )){
+    $transactionRespond = new TransactionRespond();
 }
 
 
-register_activation_hook( __FILE__, array($transactionResponse, 'activate'));
-register_deactivation_hook( __FILE__, array($transactionResponse, 'deactivate'));
+register_activation_hook( __FILE__, array($transactionRespond, 'activate'));
+register_deactivation_hook( __FILE__, array($transactionRespond, 'deactivate'));
 
 
 /*
