@@ -10,7 +10,16 @@ Author URI: http://me.unisocial.net/darkstar
 License: GPLv3 or later
 Text Domain: transaction-responder-plugin
 */
-
+/*
+ * Create a WordPress Plugin from Scratch - Part 4 - Custom Post Type
+ * https://youtu.be/XTkbDBhXBQI?list=PLriKzYyLb28kR_CPMz8uierDWC2y3znI2
+ *
+ * WordPress Hooks Actions and Filters -Actions - Part 2
+ * https://youtu.be/tlAukRR7tf4?list=PLD8nQCAhR3tTVcreVOlFteq0piaXq1jjk
+ *
+ * Part 1: Actions - WordPress Hooks Tutorial For Beginners 2019
+ * https://youtu.be/9GuJi8dYuAs
+ */
 
 
 if ( !function_exists( 'add_action' ) ) {
@@ -27,12 +36,13 @@ class TransactionResponder
     }
 
     function activate(){
+        // generate email Post_Type
+        $this->custom_post_type();
         flush_rewrite_rules();
     }
 
     function deactivate(){
-        // generate email Post_Type
-        $this->custom_post_type();
+        // deactivate email Post_Type
         flush_rewrite_rules();
     }
 
@@ -43,36 +53,43 @@ class TransactionResponder
         register_post_type( 'email', ['public' => true, 'label' => 'Email' ]);
     }
 
-
     function log_when_saved( $post_id ){
         /*
          * https://youtu.be/tlAukRR7tf4?list=PLD8nQCAhR3tTVcreVOlFteq0piaXq1jjk
          * https://youtu.be/9GuJi8dYuAs
          */
-        if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
-            return;
-        }
+//        if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
+//            return;
+//        }
+        $message = get_the_title( $post_id );
 
+//        $this->mailResponse();
+    }
+
+    function logResponse($mailResult){
         $log = get_home_path() . 'log/hook_log.txt';
-        $title = get_the_title( $post_id );
-        $message = get_the_content( $post_id );
-        $entry = $title . " " . $message;
+        $message = $mailResult;
 
         if (file_exists( $log)) {
             $file = fopen( $log, 'a');
-            fwrite($file, $entry."\n");
+            fwrite($file, $message ."\n");
         } else {
             $file = fopen( $log, 'w');
-            fwrite( $file, $entry."\n");
+            fwrite( $file, $message ."\n");
         }
         fclose($file);
     }
 
+
     function mailResponse(){
-        $address = 'synchronicity113@gmail.com';
+        $to = 'synchronicity113@gmail.com';
         $subject = 'hello';
         $message = 'world';
-        wp_mail( $to, $subject, $message );
+
+        $mailResult = false;
+        $mailResult = wp_mail( $to, 'test if mail works', 'hurray' );
+        $this->logResponse($mailResult);
+//        wp_mail( $to, $subject, $message );
     }
 }
 
