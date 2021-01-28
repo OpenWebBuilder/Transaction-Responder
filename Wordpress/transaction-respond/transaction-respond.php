@@ -51,9 +51,9 @@ class TransactionRespond
         $first_name = isset($posted["first_name"]) ? $posted["first_name"] : '';
 
         $body = <<<'EOD'
-Welcome to the Pleasuredome!
+<h1>Welcome to the Pleasuredome!</h1>
 
-Life goes on day after day, after day, after day
+<b>Life goes on day after day, after day, after day</b>
 Who-ha who-ha
 Who-ha who-ha
 Ha
@@ -112,7 +112,7 @@ EOD;
         // Compose Email
         $subject     = 'Hi ' . $first_name . ', Welcome to TimCast.com!';
         $greeting     = 'Hello, ' . $first_name;
-        $message     = $greeting . $body;
+        $message     = $greeting . '\n' . $body;
 
         wp_mail( $to, $subject, $message, $headers );
     }
