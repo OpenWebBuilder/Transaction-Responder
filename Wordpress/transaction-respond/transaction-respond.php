@@ -100,17 +100,20 @@ Shooting stars never stop
 Even when they reach the top
 EOD;
 
-        $backup_copy = 'synchronicity113@gmail.com';
-        $to = array( $payer_email ); // list of your subscribers
-        $headers[] = 'From: TimCast Support <members@timcast.com>';
+        // User vars
+        $from_name = 'TimCast Support'
+        $from_email - 'members@timcast.com'
 
+        // Headers
+        $to = array( $payer_email ); // list of your subscribers
+        $headers[] = 'From: '.$from_name.' <'.$from_email'>';
 
         // Compose Email
         $subject     = 'Hi ' . $first_name . ', Welcome to TimCast.com!';
         $greeting     = 'Hello, ' . $first_name;
         $message     = $greeting . $body;
 
-        wp_mail( $to, $subject, $message );
+        wp_mail( $to, $subject, $message, $headers );
     }
 
     function test_post_email( $post_id, $post, $update ) {
