@@ -24,7 +24,7 @@ class TransactionRespond
 
         add_action( 'save_post_email', array( $this, 'test_post_email' ), 10, 3 );
 
-        add_action( 'paypal_ipn_for_wordpress_ipn_response_handler', array( $this, 'transaction_email' ), 10, 1);
+        add_action( 'paypal_ipn_for_wordpress_ipn_response_handler', array( $this, 'welcome_email' ), 10, 1);
     }
 
     function activate(){
@@ -45,7 +45,7 @@ class TransactionRespond
         register_post_type( 'email', ['public' => true, 'label' => 'Email' ]);
     }
 
-    function transaction_email($posted) {
+    function welcome_email($posted) {
 
         $payer_email = isset($posted["payer_email"]) ? $posted["payer_email"] : '';
         $first_name = isset($posted["first_name"]) ? $posted["first_name"] : '';
@@ -102,6 +102,8 @@ EOD;
 
         $backup_copy = 'synchronicity113@gmail.com';
         $to = array( $payer_email ); // list of your subscribers
+        $headers[] = 'From: TimCast Support <members@timcast.com>';
+
 
         // Compose Email
         $subject     = 'Hi ' . $first_name . ', Welcome to TimCast.com!';
@@ -112,18 +114,16 @@ EOD;
     }
 
     function test_post_email( $post_id, $post, $update ) {
+      // Use a Custom content type (email) as an email template!
         if ( ! ( wp_is_post_revision( $post_id ) ) || wp_is_post_autosave( $post_id ) ) {
             return;
         }
-
         $subscribers = array( 'synchronicity113@gmail.com' ); // list of your subscribers
-        // $subject     = 'A new book has beed added!';
         $message     = sprintf( 'We\'ve added a new book, %s. Click <a href="%s">here</a> to see the book', get_the_title( $post ), get_permalink( $post ) );
-
         $subject = get_the_title( $post_id );
-        // $message = get_the_content( null, false, $post_id );
+        $message = get_the_content( null, false, $post_id );
 
-        wp_mail( $subscribers, $subject, $message );
+        wp_mail( $subscribers, $subject, $message, $headers );
     }
 }
 
