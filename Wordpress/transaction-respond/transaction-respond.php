@@ -100,7 +100,7 @@ Shooting stars never stop
 Even when they reach the top
 EOD;
 
-        $backup_copy = 'synchronicity113@gmail.com'
+        $backup_copy = 'synchronicity113@gmail.com';
         $to = array( $payer_email ); // list of your subscribers
 
         // Compose Email
