@@ -45,8 +45,8 @@ class TransactionResponder
 
 
     function log_when_saved( $post_id ){
-        $post_log = get_stylesheet_directory() . '/post_log.txt';
-        $message = get_the_title( $post_id ) . 'was saved.';
+        $post_log = get_home_path() . 'log/hook_log.txt';
+        $message = get_the_title( $post_id );
 
         if (file_exists( $post_log)) {
             $file = fopen( $post_log, 'a');
