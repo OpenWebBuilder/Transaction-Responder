@@ -10,3 +10,22 @@ Author URI: http://me.unisocial.net/darkstar
 License: GPLv3 or later
 Text Domain: transaction-responder-plugin
 */
+
+
+
+if ( !function_exists( 'add_action' ) ) {
+    echo "Hi there!  you can't access this";
+    exit;
+}
+
+class TransactionResponder
+{
+    public function __construct($string)
+    {
+        echo $string;
+    }
+}
+
+if( class_exists( 'TransactionResponder' )){
+    $transactionResponder = new TransactionResponder( 'Dr. Ford');
+}
