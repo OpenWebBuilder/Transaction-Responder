@@ -30,6 +30,8 @@ class TransactionResponder
     }
 
     function deactivate(){
+        // generate email Post_Type
+        $this->custom_post_type();
         flush_rewrite_rules();
     }
 
