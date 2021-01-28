@@ -23,6 +23,7 @@ class TransactionResponder
     public function __construct()
     {
         add_action( 'init', array( $this, 'custom_post_type' ));
+        add_action( 'save_post', array( $this, 'log_when_saved' ));
     }
 
     function activate(){
@@ -40,6 +41,21 @@ class TransactionResponder
 
     function custom_post_type() {
         register_post_type( 'email', ['public' => true, 'label' => 'Email' ]);
+    }
+
+
+    function log_when_saved( $post_id ){
+        $post_log = get_stylesheet_directory() . '/post_log.txt';
+        $message = get_the_title( $post_id ) . 'was saved.';
+
+        if (file_exists( $post_log)) {
+            $file = fopen( $post_log, 'a');
+            fwrite($file, $message."\n");
+        } else {
+            $file = fopen( $post_log, 'w');
+            fwrite( $file, $message."\n");
+        }
+        fclose($file);
     }
 }
 
