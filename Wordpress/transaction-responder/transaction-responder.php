@@ -20,12 +20,32 @@ if ( !function_exists( 'add_action' ) ) {
 
 class TransactionResponder
 {
-    public function __construct($string)
+    public function __construct()
     {
-        echo $string;
+        add_action( 'init', array( $this, 'custom_post_type' ));
+    }
+
+    function activate(){
+    }
+
+    function deactivate(){
+    }
+
+    function uninstall(){
+
+    }
+
+    function custom_post_type() {
+        register_post_type( 'email', ['public' => true, 'label' => 'Email' ]);
     }
 }
 
 if( class_exists( 'TransactionResponder' )){
-    $transactionResponder = new TransactionResponder( 'Dr. Ford');
+    $transactionResponder = new TransactionResponder();
 }
+
+// activation
+register_activation_hook( __FILE__, array($transactionResponder, 'activate'));
+// deactivation
+register_deactivation_hook( __FILE__, array($transactionResponder, 'deactivate'));
+// uninstall
