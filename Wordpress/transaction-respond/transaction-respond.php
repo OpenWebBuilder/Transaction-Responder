@@ -48,12 +48,67 @@ class TransactionRespond
     function transaction_email($posted) {
 
         $payer_email = isset($posted["payer_email"]) ? $posted["payer_email"] : '';
+        $first_name = isset($posted["first_name"]) ? $posted["first_name"] : '';
 
-        $subscribers = array( 'synchronicity113@gmail.com' ); // list of your subscribers
-        $subject     = 'Welcome to TimCast.com!';
-        $message     = 'to '. $payer_email;
+        $body = <<<'EOD'
+Welcome to the Pleasuredome!
 
-        wp_mail( $subscribers, $subject, $message );
+Life goes on day after day, after day, after day
+Who-ha who-ha
+Who-ha who-ha
+Ha
+The animals are winding me up
+The jungle call
+The jungle call
+Who-ha who-ha who-ha who-ha
+In Xanadu did Kublai Khan
+A pleasure dome erect
+Moving on keep moving on-yeah
+Moving at one million miles an hour
+Using my power
+I sell it by the hour
+I have it so I market it
+You really can't afford it-yeah
+Really can't afford it
+
+Shooting stars never stop
+Even when they reach the top
+Shooting stars never stop
+Even when they reach the top
+
+There goes a supernova
+What a pushover-yeah
+There goes a supernova
+What a pushover
+
+We're a long way from home
+Welcome to the Pleasure dome
+On our way home
+Going home where lovers roam
+Long way from home
+Welcome to the Pleasure dome
+
+Moving on keep moving on
+I will give you diamonds by the shower
+Love your body even when it's old
+Do it just as only I can do it
+
+Never, ever doing what I'm told
+Shooting stars never stop
+Even when they reach the top
+Shooting stars never stop
+Even when they reach the top
+EOD;
+
+        $backup_copy = 'synchronicity113@gmail.com'
+        $to = array( $payer_email ); // list of your subscribers
+
+        // Compose Email
+        $subject     = 'Hi ' . $first_name . ', Welcome to TimCast.com!';
+        $greeting     = 'Hello, ' . $first_name;
+        $message     = $greeting . $body;
+
+        wp_mail( $to, $subject, $message );
     }
 
     function test_post_email( $post_id, $post, $update ) {

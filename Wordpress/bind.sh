@@ -1,4 +1,4 @@
-plugin=transaction-responder
+plugin=transaction-respond
 src=$HOME/src/Transaction-Responder/Wordpress
 site=/var/www/site.tld/htdocs/wp-content/plugins
 
